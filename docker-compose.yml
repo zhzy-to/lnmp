@@ -1,0 +1,41 @@
+version: "3"
+services:
+
+  # 程序 服务
+  app:
+    build:
+      context: ./
+      dockerfile: app.dockerfile
+    working_dir: /var/www
+    volumes:
+      - ./app:/var/www
+    #environment:
+    #  - "DB_PORT=3306"
+    #  - "DB_HOST=database"
+
+  # web 服务
+  web:
+    build:
+      context: ./
+      dockerfile: web.dockerfile
+    working_dir: /var/www
+    volumes_from:
+      - app
+    ports:
+      - 8080:80
+
+  # 数据 服务
+  database:
+    image: mysql:5.6
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      - "MYSQL_DATABASE=test"
+      - "MYSQL_USER=test"
+      - "MYSQL_PASSWORD=test123"
+      - "MYSQL_ROOT_PASSWORD=test123"
+    ports:
+      - "33061:3306"
+
+volumes:
+  dbdata:
