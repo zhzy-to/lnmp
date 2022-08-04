@@ -8,7 +8,7 @@ services:
       dockerfile: app.dockerfile
     #working_dir: /var/www
     volumes:
-      - ./app:/app
+      - &bind_app ./app:/app
       # php.ini
       - ./config/php7/php.ini:/usr/local/etc/php/php.ini:ro
     #environment:
@@ -31,7 +31,8 @@ services:
       - type: bind
         source: ./conf.d
         target: /etc/nginx/conf.d
-
+      - *bind_app
+      - ./log/nginx:/var/log/nginx
     #volumes_from:
     #  - app
 
@@ -39,8 +40,8 @@ services:
     #使用宿主端口：容器端口 (HOST:CONTAINER) 格式，或者仅仅指定容器的端口（宿主将会随机选择端口）都可以
     ports:
       - 8080:80
-      - 443:443/tcp
-      - 443:443/udp
+      #- 443:443/tcp
+      #- 443:443/udp
     healthcheck:
       test: [ "CMD","nginx","-t" ]
 
@@ -49,10 +50,10 @@ services:
     image: mysql:5.6
     volumes:
       - ./config/mysql/conf.d:/etc/mysql/conf.d
+      - ./log/mysql:/var/log/mysql
       - type: volume
         source: mysql-data
         target: /var/lib/mysql
-      - ./log/mysql:var/log/mysql
       - type: tmpfs
         target: /var/run/mysqld
     environment:
@@ -65,7 +66,7 @@ services:
 
   # Redis
   redis:
-    image: library/redis:7.0.0-alpine"
+    image: redis:7.0.0-alpine
     ports:
       - 127.0.0.1:63799:6379
     volumes:
