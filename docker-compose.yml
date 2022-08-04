@@ -2,33 +2,59 @@ version: "3"
 services:
 
   # 程序 服务
-  app:
+  php7:
     build:
       context: ./
       dockerfile: app.dockerfile
-    working_dir: /var/www
+    #working_dir: /var/www
     volumes:
-      - ./app:/var/www
+      - ./app:/app
+      # php.ini
+      - ./config/php7/php.ini:/usr/local/etc/php/php.ini:ro
     #environment:
     #  - "DB_PORT=3306"
     #  - "DB_HOST=database"
 
   # web 服务
-  web:
-    build:
-      context: ./
-      dockerfile: web.dockerfile
-    working_dir: /var/www
-    volumes_from:
-      - app
+  nginx:
+    image: nginx:1.21.3-alpine
+
+    #使用dockerfile
+    #build:
+    #  context: ./
+    #  dockerfile: web.dockerfile
+
+    working_dir: /app
+
+    #数据卷所挂载路径设置
+    volumes:
+      - type: bind
+        source: ./conf.d
+        target: /etc/nginx/conf.d
+
+    #volumes_from:
+    #  - app
+
+    #暴露端口信息。
+    #使用宿主端口：容器端口 (HOST:CONTAINER) 格式，或者仅仅指定容器的端口（宿主将会随机选择端口）都可以
     ports:
       - 8080:80
+      - 443:443/tcp
+      - 443:443/udp
+    healthcheck:
+      test: [ "CMD","nginx","-t" ]
 
-  # 数据 服务
-  database:
+  # mysql 服务
+  mysql:
     image: mysql:5.6
     volumes:
-      - dbdata:/var/lib/mysql
+      - ./config/mysql/conf.d:/etc/mysql/conf.d
+      - type: volume
+        source: mysql-data
+        target: /var/lib/mysql
+      - ./log/mysql:var/log/mysql
+      - type: tmpfs
+        target: /var/run/mysqld
     environment:
       - "MYSQL_DATABASE=test"
       - "MYSQL_USER=test"
@@ -37,5 +63,36 @@ services:
     ports:
       - "33061:3306"
 
+  # Redis
+  redis:
+    image: library/redis:7.0.0-alpine"
+    ports:
+      - 127.0.0.1:63799:6379
+    volumes:
+      - ./config/redis/redis.conf:/redis.conf:ro
+      # - redis-data:/data
+      - type: volume
+        source: redis-data
+        target: /data
+        volume:
+          nocopy: true
+      - ./log/redis:/var/log/redis
+
+    # set config by command
+    command: [
+        "redis-server",
+        "/redis.conf",
+        "--daemonize no",
+        "--logfile /var/log/redis/redis.log",
+        "--bind 0.0.0.0",
+        "--appendonly yes",
+        "--aof-use-rdb-preamble yes"
+    ]
+    healthcheck:
+      test: ["CMD","redis-cli","ping"]
+      retries: 3
+      timeout: 5s
+
 volumes:
-  dbdata:
+  mysql-data:
+  redis-data:
