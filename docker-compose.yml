@@ -1,24 +1,79 @@
 version: "3"
 services:
 
-  # 程序 服务
   php7:
     build:
-      context: ./
-      dockerfile: app.dockerfile
-    #working_dir: /var/www
+      context: ./services/php
+      args:
+        PHP_VERSION: php:${PHP7_VERSION}-fpm-alpine
+        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+        PHP_EXTENSIONS: ${PHP7_EXTENSIONS}
+        TZ: "$TZ"
+    container_name: php7
     volumes:
       - &bind_app ./app:/app
-      # php.ini
-      - ./config/php7/php.ini:/usr/local/etc/php/php.ini:ro
-    #environment:
-    #  - "DB_PORT=3306"
-    #  - "DB_HOST=database"
+      #- ${SOURCE_DIR}:/www/:rw
+      - ${PHP7_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+      # 修改php56 监听端口未生效
+      - ${PHP7_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
+      - ${PHP7_LOG_DIR}:/var/log/php
+      - ${DATA_DIR}/composer_php7:/tmp/composer
+    restart: always
+    # 不要与主机的端口冲突
+    ports:
+      - "9001:9000"
+
+  php56:
+    build:
+      context: ./services/php
+      args:
+        PHP_VERSION: php:${PHP56_VERSION}-fpm-alpine
+        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+        PHP_EXTENSIONS: ${PHP56_EXTENSIONS}
+        TZ: "$TZ"
+    container_name: php56
+    #expose:
+    #  - 9501
+    volumes:
+      - *bind_app
+      #- ${SOURCE_DIR}:/www/:rw
+      - ${PHP56_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+      # 修改php56 监听端口未生效
+      - ${PHP56_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
+      - ${PHP56_LOG_DIR}:/var/log/php
+      - ${DATA_DIR}/composer_php56:/tmp/composer
+    restart: always
+    # 不要与主机的端口冲突
+    ports:
+      - "9002:9000"
+    #cap_add:
+    #  - SYS_PTRACE
+    #networks:
+    #  - nginx_bridge
+
+  php8:
+    image: "khs1994/php:8.1.1-fpm-alpine"
+    container_name: php8
+    volumes:
+      - *bind_app
+      #- ${SOURCE_DIR}:/www/:rw
+      - ${PHP8_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+      # 修改php56 监听端口未生效
+      - ${PHP8_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
+      - ${PHP8_LOG_DIR}:/var/log/php
+      - ${DATA_DIR}/composer_php8:/tmp/composer
+    #expose:
+    #  - "9000"
+    #command: php-fpm -R -F
+    restart: always
+    # 不要与主机的端口冲突
+    ports:
+      - "9004:9000"
 
   # web 服务
   nginx:
     image: nginx:1.21.3-alpine
-
+    container_name: nginx1.21
     #使用dockerfile
     #build:
     #  context: ./
@@ -32,68 +87,82 @@ services:
         source: ./conf.d
         target: /etc/nginx/conf.d
       - *bind_app
-      - ./log/nginx:/var/log/nginx
+      - ./logs/nginx:/var/log/nginx
     #volumes_from:
     #  - app
 
     #暴露端口信息。
     #使用宿主端口：容器端口 (HOST:CONTAINER) 格式，或者仅仅指定容器的端口（宿主将会随机选择端口）都可以
     ports:
-      - 8080:80
+      - "8080:80"
       #- 443:443/tcp
       #- 443:443/udp
+    #networks:
+    #  - nginx_bridge
     healthcheck:
       test: [ "CMD","nginx","-t" ]
 
-  # mysql 服务
+
   mysql:
-    image: mysql:5.6
-    volumes:
-      - ./config/mysql/conf.d:/etc/mysql/conf.d
-      - ./log/mysql:/var/log/mysql
-      - type: volume
-        source: mysql-data
-        target: /var/lib/mysql
-      - type: tmpfs
-        target: /var/run/mysqld
-    environment:
-      - "MYSQL_DATABASE=test"
-      - "MYSQL_USER=test"
-      - "MYSQL_PASSWORD=test123"
-      - "MYSQL_ROOT_PASSWORD=test123"
+    image: mysql/mysql-server:${MYSQL_VERSION}
+    container_name: mysql
     ports:
-      - "33061:3306"
+      - "${MYSQL_HOST_PORT}:3306"
+    volumes:
+      - ${MYSQL_CONF_FILE}:/etc/mysql/conf.d/mysql.cnf:ro
+      - ${DATA_DIR}/mysql:/var/lib/mysql/:rw
+      - ${MYSQL_LOG_DIR}:/var/log/mysql/:rw
+
+    restart: always
+    networks:
+      - default
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_ROOT_HOST: "${MYSQL_ROOT_HOST}"
+      TZ: "$TZ"
+    # 解决mac m1 平台mysql问题
+    platform: linux/x86_64
 
   # Redis
   redis:
-    image: redis:7.0.0-alpine
+    image: redis:${REDIS_VERSION}
+    container_name: redis
     ports:
-      - 127.0.0.1:63799:6379
+      - ${REDIS_HOST_PORT}:6379
     volumes:
-      - ./config/redis/redis.conf:/redis.conf:ro
+      - ${DATA_DIR}/redis:/data/:rw
+      - ${REDIS_CONF_FILE}:/redis.conf:ro
       # - redis-data:/data
-      - type: volume
-        source: redis-data
-        target: /data
-        volume:
-          nocopy: true
-      - ./log/redis:/var/log/redis
+      #      - type: volume
+      #        source: redis-data
+      #        target: /data
+      #        volume:
+      #          nocopy: true
+      - ./logs/redis:/var/log/redis
 
     # set config by command
     command: [
-        "redis-server",
-        "/redis.conf",
-        "--daemonize no",
-        "--logfile /var/log/redis/redis.log",
-        "--bind 0.0.0.0",
-        "--appendonly yes",
-        "--aof-use-rdb-preamble yes"
+      "redis-server",
+      "/redis.conf",
+      "--daemonize no",
+      "--logfile /var/log/redis/redis.log",
+      "--bind 0.0.0.0",
+      "--appendonly yes",
+      "--aof-use-rdb-preamble yes"
     ]
+    restart: always
+    #    entrypoint: ["redis-server", "/etc/redis.conf"]
+    environment:
+      TZ: "$TZ"
     healthcheck:
-      test: ["CMD","redis-cli","ping"]
+      test: [ "CMD","redis-cli","ping" ]
       retries: 3
       timeout: 5s
 
-volumes:
-  mysql-data:
-  redis-data:
+#volumes:
+#  mysql-data:
+#  redis-data:
+
+#networks:
+#  nginx_bridge:
+#    driver: bridge
