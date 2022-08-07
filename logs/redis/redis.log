@@ -274,3 +274,103 @@
 1:M 05 Aug 2022 00:25:27.740 * Saving the final RDB snapshot before exiting.
 1:M 05 Aug 2022 00:25:27.750 * DB saved on disk
 1:M 05 Aug 2022 00:25:27.753 # Redis is now ready to exit, bye bye...
+1:C 07 Aug 2022 22:34:00.023 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 07 Aug 2022 22:34:00.030 # Redis version=7.0.0, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 07 Aug 2022 22:34:00.032 # Configuration loaded
+1:M 07 Aug 2022 22:34:00.036 * monotonic clock: POSIX clock_gettime
+1:M 07 Aug 2022 22:34:00.040 * Running mode=standalone, port=6379.
+1:M 07 Aug 2022 22:34:00.046 # Server initialized
+1:M 07 Aug 2022 22:34:00.061 * Reading RDB base file on AOF loading...
+1:M 07 Aug 2022 22:34:00.063 * Loading RDB produced by version 7.0.0
+1:M 07 Aug 2022 22:34:00.066 * RDB age 257364 seconds
+1:M 07 Aug 2022 22:34:00.069 * RDB memory usage when created 0.85 Mb
+1:M 07 Aug 2022 22:34:00.074 * RDB is base AOF
+1:M 07 Aug 2022 22:34:00.078 * Done loading RDB, keys loaded: 0, keys expired: 0.
+1:M 07 Aug 2022 22:34:00.083 * DB loaded from base file appendonly.aof.1.base.rdb: 0.024 seconds
+1:M 07 Aug 2022 22:34:00.093 * Ready to accept connections
+1:signal-handler (1659882846) Received SIGTERM scheduling shutdown...
+1:M 07 Aug 2022 22:34:06.326 # User requested shutdown...
+1:M 07 Aug 2022 22:34:06.328 * Calling fsync() on the AOF file.
+1:M 07 Aug 2022 22:34:06.330 * Saving the final RDB snapshot before exiting.
+1:M 07 Aug 2022 22:34:06.338 * DB saved on disk
+1:M 07 Aug 2022 22:34:06.343 # Redis is now ready to exit, bye bye...
+1:C 07 Aug 2022 22:34:10.367 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 07 Aug 2022 22:34:10.373 # Redis version=7.0.0, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 07 Aug 2022 22:34:10.379 # Configuration loaded
+1:M 07 Aug 2022 22:34:10.382 * monotonic clock: POSIX clock_gettime
+1:M 07 Aug 2022 22:34:10.390 * Running mode=standalone, port=6379.
+1:M 07 Aug 2022 22:34:10.393 # Server initialized
+1:M 07 Aug 2022 22:34:10.419 * Reading RDB base file on AOF loading...
+1:M 07 Aug 2022 22:34:10.422 * Loading RDB produced by version 7.0.0
+1:M 07 Aug 2022 22:34:10.424 * RDB age 257374 seconds
+1:M 07 Aug 2022 22:34:10.427 * RDB memory usage when created 0.85 Mb
+1:M 07 Aug 2022 22:34:10.429 * RDB is base AOF
+1:M 07 Aug 2022 22:34:10.433 * Done loading RDB, keys loaded: 0, keys expired: 0.
+1:M 07 Aug 2022 22:34:10.438 * DB loaded from base file appendonly.aof.1.base.rdb: 0.023 seconds
+1:M 07 Aug 2022 22:34:10.442 * Ready to accept connections
+1:signal-handler (1659882940) Received SIGTERM scheduling shutdown...
+1:M 07 Aug 2022 22:35:40.854 # User requested shutdown...
+1:M 07 Aug 2022 22:35:40.855 * Calling fsync() on the AOF file.
+1:M 07 Aug 2022 22:35:40.858 * Saving the final RDB snapshot before exiting.
+1:M 07 Aug 2022 22:35:40.879 * DB saved on disk
+1:M 07 Aug 2022 22:35:40.881 # Redis is now ready to exit, bye bye...
+1:C 07 Aug 2022 22:39:37.394 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 07 Aug 2022 22:39:37.398 # Redis version=7.0.0, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 07 Aug 2022 22:39:37.402 # Configuration loaded
+1:M 07 Aug 2022 22:39:37.406 * monotonic clock: POSIX clock_gettime
+1:M 07 Aug 2022 22:39:37.415 * Running mode=standalone, port=6379.
+1:M 07 Aug 2022 22:39:37.417 # Server initialized
+1:M 07 Aug 2022 22:39:37.434 * Reading RDB base file on AOF loading...
+1:M 07 Aug 2022 22:39:37.438 * Loading RDB produced by version 7.0.0
+1:M 07 Aug 2022 22:39:37.439 * RDB age 257701 seconds
+1:M 07 Aug 2022 22:39:37.441 * RDB memory usage when created 0.85 Mb
+1:M 07 Aug 2022 22:39:37.442 * RDB is base AOF
+1:M 07 Aug 2022 22:39:37.443 * Done loading RDB, keys loaded: 0, keys expired: 0.
+1:M 07 Aug 2022 22:39:37.444 * DB loaded from base file appendonly.aof.1.base.rdb: 0.016 seconds
+1:M 07 Aug 2022 22:39:37.448 * Ready to accept connections
+1:signal-handler (1659883241) Received SIGTERM scheduling shutdown...
+1:M 07 Aug 2022 22:40:41.461 # User requested shutdown...
+1:M 07 Aug 2022 22:40:41.466 * Calling fsync() on the AOF file.
+1:M 07 Aug 2022 22:40:41.468 * Saving the final RDB snapshot before exiting.
+1:M 07 Aug 2022 22:40:41.476 * DB saved on disk
+1:M 07 Aug 2022 22:40:41.478 # Redis is now ready to exit, bye bye...
+1:C 07 Aug 2022 22:44:12.051 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 07 Aug 2022 22:44:12.055 # Redis version=7.0.0, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 07 Aug 2022 22:44:12.058 # Configuration loaded
+1:M 07 Aug 2022 22:44:12.062 * monotonic clock: POSIX clock_gettime
+1:M 07 Aug 2022 22:44:12.068 * Running mode=standalone, port=6379.
+1:M 07 Aug 2022 22:44:12.071 # Server initialized
+1:M 07 Aug 2022 22:44:12.078 * Reading RDB base file on AOF loading...
+1:M 07 Aug 2022 22:44:12.079 * Loading RDB produced by version 7.0.0
+1:M 07 Aug 2022 22:44:12.080 * RDB age 257976 seconds
+1:M 07 Aug 2022 22:44:12.084 * RDB memory usage when created 0.85 Mb
+1:M 07 Aug 2022 22:44:12.085 * RDB is base AOF
+1:M 07 Aug 2022 22:44:12.087 * Done loading RDB, keys loaded: 0, keys expired: 0.
+1:M 07 Aug 2022 22:44:12.088 * DB loaded from base file appendonly.aof.1.base.rdb: 0.012 seconds
+1:M 07 Aug 2022 22:44:12.091 * Ready to accept connections
+1:signal-handler (1659883985) Received SIGTERM scheduling shutdown...
+1:M 07 Aug 2022 22:53:06.030 # User requested shutdown...
+1:M 07 Aug 2022 22:53:06.039 * Calling fsync() on the AOF file.
+1:M 07 Aug 2022 22:53:06.044 * Saving the final RDB snapshot before exiting.
+1:M 07 Aug 2022 22:53:06.064 * DB saved on disk
+1:M 07 Aug 2022 22:53:06.074 # Redis is now ready to exit, bye bye...
+1:C 07 Aug 2022 22:53:46.638 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 07 Aug 2022 22:53:46.641 # Redis version=7.0.0, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 07 Aug 2022 22:53:46.643 # Configuration loaded
+1:M 07 Aug 2022 22:53:46.645 * monotonic clock: POSIX clock_gettime
+1:M 07 Aug 2022 22:53:46.648 * Running mode=standalone, port=6379.
+1:M 07 Aug 2022 22:53:46.652 # Server initialized
+1:M 07 Aug 2022 22:53:46.677 * Reading RDB base file on AOF loading...
+1:M 07 Aug 2022 22:53:46.681 * Loading RDB produced by version 7.0.0
+1:M 07 Aug 2022 22:53:46.683 * RDB age 258550 seconds
+1:M 07 Aug 2022 22:53:46.689 * RDB memory usage when created 0.85 Mb
+1:M 07 Aug 2022 22:53:46.694 * RDB is base AOF
+1:M 07 Aug 2022 22:53:46.696 * Done loading RDB, keys loaded: 0, keys expired: 0.
+1:M 07 Aug 2022 22:53:46.703 * DB loaded from base file appendonly.aof.1.base.rdb: 0.025 seconds
+1:M 07 Aug 2022 22:53:46.715 * Ready to accept connections
+1:signal-handler (1659884045) Received SIGTERM scheduling shutdown...
+1:M 07 Aug 2022 22:54:05.303 # User requested shutdown...
+1:M 07 Aug 2022 22:54:05.305 * Calling fsync() on the AOF file.
+1:M 07 Aug 2022 22:54:05.307 * Saving the final RDB snapshot before exiting.
+1:M 07 Aug 2022 22:54:05.315 * DB saved on disk
+1:M 07 Aug 2022 22:54:05.317 # Redis is now ready to exit, bye bye...

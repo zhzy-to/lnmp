@@ -70,6 +70,18 @@ services:
     ports:
       - "9004:9000"
 
+  mephp7:
+    # 使用本地构建好的镜像
+    #image: "mephp7:v1"
+    build:
+      context: ./services/my-php7
+    container_name: mephp7
+    volumes:
+      - *bind_app
+    restart: always
+    ports:
+      - "9005:9000"
+
   # web 服务
   nginx:
     image: nginx:1.21.3-alpine
