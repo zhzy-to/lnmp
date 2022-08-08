@@ -28,18 +28,25 @@ $ docker exec -it nginx nginx -s reload
 
 ### 启动
 
-```
+```bash
 docker-compose -f docker-compose.yml up -d
 ```
 
 ### 停止
 
-```
+```bash
 docker-compose -f docker-compose.yml stop
 ```
 
 ### 删除
 
-```
+```bash
 docker-compose -f docker-compose.yml down
+```
+
+
+### 单独启动某服务
+
+```bash
+docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.6 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 ```
